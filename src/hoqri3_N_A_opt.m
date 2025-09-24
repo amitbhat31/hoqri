@@ -28,8 +28,6 @@ recon_obj = [];
 tim = [];
 
 recon_err_old = inf;
-% iter_time = [];
-% running_time = 0;
 
 fprintf('      ');
 for itr = 1:maxiter
@@ -99,20 +97,8 @@ for itr = 1:maxiter
 
     end
 
-    % running_time = running_time + toc;
-    % iter_time = [iter_time, running_time];
 
-    core = X;
-    for n = 1:N
-        core = ttm(core, U{n}', n);
-    end
-
-    X_pred = core;
-    for n = 1:N
-        X_pred = ttm(X_pred, U{n}, n);
-    end
-
-    recon_err = abs(normX - norm(X_pred)^2);
+    recon_err = abs(normX - Gnorm2);
 
     orth_obj = [ orth_obj, Gnorm2 ];
     recon_obj = [recon_obj, recon_err];

@@ -105,13 +105,11 @@ for iter = 1:maxiters
             orth_obj(end+1) = Gnorm2;
         end
     end
-
-    % Assemble the current approximation
+    
     core = ttm(Utilde, U, n, 't');
-    pred = ttm(core, U);
+    % pred = ttm(core, U);
 
-    % Compute fit
-    normresidual = abs(normX - norm(pred)^2);
+    normresidual = abs(normX - norm(core)^2);
     % fit = 1 - (normresidual / normX); %fraction explained by model
     % fitchange = abs(fitold - fit);
     reschange = abs(normresidual_old - normresidual);
@@ -125,7 +123,6 @@ for iter = 1:maxiters
     recon_obj(end + 1) = normresidual;
     tim(end+1) = t;
 
-    % Check for convergence
     if (iter > 1) && (reschange < reschangetol)
         break;
     end

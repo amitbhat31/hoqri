@@ -1,15 +1,14 @@
-function [U,orth_obj,recon_obj, tim] = hoqri3_A(X,K,U, iters, tol)
+function [U,orth_obj,recon_obj, tim] = hoqri3_A(X,K,U, Xn, iters, tol)
 
 tic;
 
 N = ndims(X);
-normX = norm(X)^2;
+normX = Xn;
 
-I = size(X);
+I = X.size;
 if isa(X,'sptensor')
     subs = X.subs;
     vals = X.vals;
-%     Xnorm2 = sum(vals.^2);
 elseif strcmp(getstructure(X),'sparse')
     subs = X.sub;
     vals = X.val;
@@ -25,8 +24,7 @@ U3 = U{3};
 orth_obj = [];
 recon_obj = [];
 tim = [];
-% iter_time = [];
-% running_time = 0;
+
 
 fprintf('      ');
 for itr = 1:iters
@@ -86,15 +84,10 @@ for itr = 1:iters
         A3 = A3 + Y*G;
     end
     [U3, ~] = qr(A3, 0);
-
-    % running_time = running_time + toc;
-    % iter_time = [ iter_time, running_time ];
     
-    core = ttm(X, {U1', U2', U3'});
-    X_pred = ttm(core, {U1, U2, U3});
-    recon_err = abs(normX - norm(X_pred)^2);
-    
-%     U = {U1,U2,U3};
+    % core = ttm(X, {U1', U2', U3'});
+    % X_pred = ttm(core, {U1, U2, U3});
+    recon_err = abs(normX - Gnorm2);
 
     orth_obj = [ orth_obj, Gnorm2 ];
     recon_obj = [recon_obj, recon_err];
