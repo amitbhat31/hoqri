@@ -1,4 +1,4 @@
-function [U, orth_obj, recon_obj, tim] = hoqri3_N_A_opt(X, K, U, maxiter, tol)
+function [U, orth_obj, recon_obj, tim] = hoqri_Nways(X, K, U, maxiter, tol)
 % X: input tensor
 % K: core tensor
 % U: initial guesses for matrices
@@ -93,11 +93,8 @@ for itr = 1:maxiter
         [U{n}, ~] = qr(A_n, 0);
         U_subs{n} = U{n}(subs(:, n), :);
 
-        
-
     end
-
-
+    
     recon_err = abs(normX - Gnorm2);
 
     orth_obj = [ orth_obj, Gnorm2 ];

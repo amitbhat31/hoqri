@@ -1,9 +1,9 @@
-function [U,orth_obj,recon_obj, tim] = hoqri3_A(X,K,U, Xn, iters, tol)
+function [U,orth_obj,recon_obj, tim] = hoqri_3ways(X,K,U, iters, tol)
 
 tic;
 
 N = ndims(X);
-normX = Xn;
+normX = Xn^2;
 
 I = X.size;
 if isa(X,'sptensor')
@@ -24,7 +24,6 @@ U3 = U{3};
 orth_obj = [];
 recon_obj = [];
 tim = [];
-
 
 fprintf('      ');
 for itr = 1:iters
@@ -101,7 +100,5 @@ for itr = 1:iters
 
     recon_err_old = recon_err;
 
-
-    
 end
 fprintf("\n")

@@ -23,19 +23,10 @@ try
         Xn = norm(X)^2;
     
         init = {orth(randn(I(1),K(1))),orth(randn(I(2),K(2))),orth(randn(I(3),K(3)))};
-    
-        
 
         if algo == "hoqri"
-            [U, obj, time] = hoqri3_A(X, K, init);
+            [U, obj, time] = hoqri_3ways(X, K, init);
         elseif algo == "lmlra_hooi"
-            % T.val = X.vals;
-            % T.sub = X.subs;
-            % T.size = I;
-            % T.sparse = true;
-            % T = fmt(T);
-            % [U, obj, time] = hooi_tensorlab(T, K, init);
-
             X = double(X);
             [~,S,output_hooi] = lmlra_hooi_time(X,init);
             time = output_hooi.itertime;
@@ -74,19 +65,16 @@ try
     
     results_table = table(cores, iterations, objective, time);
     
-    % 3. Define the filename for your CSV.
     filename = sprintf('fig6_%s_dim%d_nnz%d_results.csv', algo, rank, nnz);
     
-    % 4. Write the table to the CSV file.
     writetable(results_table, filename);
     
-    % Display a confirmation message in the command window.
     fprintf('Data successfully saved to %s\n', filename);
 catch ME
     fprintf('\nAn error occurred: %s\n', ME.message);
 
     num_completed = length(iter_list);
-    cores = core_list(1:num_completed)'; % Ensure it's a column vector
+    cores = core_list(1:num_completed)'; 
     
     iterations = iter_list(:);
     objective = obj_list(:);
